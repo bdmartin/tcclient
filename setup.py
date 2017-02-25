@@ -9,5 +9,10 @@ setup(
     author_email='brandon.d.martin@gmail.com',
     license='MIT',
     packages=['tcclient'],
+    install_requires=[
+        'requests'
+    ],
+    test_suite='nose.collector',
+    tests_require=['nose'],
     zip_safe=False
 )
