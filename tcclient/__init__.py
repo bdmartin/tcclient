@@ -1,1 +1,2 @@
 from .TeamCowboyClient import TeamCowboyClient
+from .TeamCowboyClientConfig import TeamCowboyClientConfig

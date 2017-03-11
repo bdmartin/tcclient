@@ -1,3 +1,4 @@
+from .TeamCowboyClientConfig import TeamCowboyClientConfig
 import hashlib
 import random
 import requests
@@ -9,11 +10,13 @@ class TeamCowboyClient:
     _url_insecure = 'http://api.teamcowboy.com/v1/'
     _url_secure = 'https://api.teamcowboy.com/v1/'
 
-    def __init__(self):
+    def __init__(self, config=None):
         """
         Initialize the class
         """
-        pass
+        self.config = TeamCowboyClientConfig() if config is None else config
+        if not isinstance(self.config, TeamCowboyClientConfig):
+            raise Exception('No valid configuration found! Config obj: %s' % (self.config))
 
     def _build_url(self, method):
         """
@@ -22,7 +25,7 @@ class TeamCowboyClient:
         # Nonce value must be string of random numbers of length 8 or greater
         random_number = ''.join(random.SystemRandom().choice(string.digits) for _ in range(64))
         url_dict = {
-            'api_key': 'tbd_figure_key',
+            'api_key': self.config.public_api_key,
             'method': method,
             'nonce': random_number,
             'timestamp': str(int(time.time())),
@@ -64,14 +67,14 @@ class TeamCowboyClient:
         # Return with the first '&' ripped out
         return url_string[1:]
 
-    def _create_sig(self, url_dict, req_type):
-        p_api_key = 'tbd_private_key'
-        req_type = req_type.upper()
+    def _create_sig(self, url_dict, request_type):
+        private_api_key = self.config.private_api_key
+        request_type = request_type.upper()
 
         url_string = self._create_url_string(url_dict).lower()
         sig_string = '|'.join([
-            p_api_key,
-            req_type,
+            private_api_key,
+            request_type,
             url_dict['method'],
             url_dict['timestamp'],
             url_dict['nonce'],
