@@ -1,7 +1,6 @@
 from unittest import TestCase
 
 import tcclient
-import pprint
 
 
 class TestTeamCowboyClientConfig(TestCase):
@@ -10,7 +9,7 @@ class TestTeamCowboyClientConfig(TestCase):
         # Arrange
 
         # Act
-        tcc_config = tcclient.TeamCowboyClientConfig()
+        tcc_config = tcclient.TeamCowboyClientConfig(config_file='')
 
         # Assert
         self.assertTrue(isinstance(tcc_config, tcclient.TeamCowboyClientConfig))
