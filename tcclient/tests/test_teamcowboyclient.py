@@ -1,8 +1,8 @@
+# from builtins import str
+from past.builtins import basestring
 from unittest import TestCase
-
-import tcclient
-import json
 import pprint
+import tcclient
 
 
 class TestTeamCowboyClient(TestCase):
@@ -25,14 +25,14 @@ class TestTeamCowboyClient(TestCase):
         url_dict = tcc._build_url(test_method_name)
 
         # Assert
-        self.assertIn('api_key', url_dict)
-        self.assertIn('method', url_dict)
-        self.assertIn('nonce', url_dict)
-        self.assertIn('timestamp', url_dict)
-        self.assertIn('response_type', url_dict)
+        self.assertTrue('api_key' in url_dict)
+        self.assertTrue('method' in url_dict)
+        self.assertTrue('nonce' in url_dict)
+        self.assertTrue('timestamp' in url_dict)
+        self.assertTrue('response_type' in url_dict)
 
         method = url_dict['method']
-        self.assertIs(test_method_name, method)
+        self.assertTrue(test_method_name is method)
         self.assertEqual(test_method_name, method)
 
     def test_url_request(self):
@@ -44,8 +44,7 @@ class TestTeamCowboyClient(TestCase):
         response = tcc._url_request(test_url)
 
         # Assert
-        # print(json.dumps(response, indent=2, sort_keys=True))
-        self.assertIsNotNone(response)
+        self.assertTrue(response is not None)
 
     def test_create_url_string_basic(self):
         # Arrange
@@ -59,9 +58,10 @@ class TestTeamCowboyClient(TestCase):
         response = tcc._create_url_string(test_dict)
 
         # Assert
-        self.assertIsNotNone(response)
-        self.assertIsInstance(response, basestring)
-        self.assertEquals(expected_string, response)
+        self.assertTrue(response is not None)
+        print(type(response))
+        self.assertTrue(isinstance(response, basestring))
+        self.assertEqual(expected_string, response)
 
     def test_create_url_string_order(self):
         # Arrange
@@ -77,9 +77,10 @@ class TestTeamCowboyClient(TestCase):
         response = tcc._create_url_string(test_dict)
 
         # Assert
-        self.assertIsNotNone(response)
-        self.assertIsInstance(response, basestring)
-        self.assertEquals(expected_string, response)
+        self.assertTrue(response is not None)
+        print(type(response))
+        self.assertTrue(isinstance(response, basestring))
+        self.assertEqual(expected_string, response)
 
     def test_create_sig(self):
         # Arrange
@@ -96,11 +97,11 @@ class TestTeamCowboyClient(TestCase):
 
         # Assert
         # print(pprint.pformat(first_response))
-        self.assertIsNotNone(first_response)
-        self.assertIn('sig', test_dict)
-        self.assertIn('timestamp', test_dict)
-        self.assertIn('method', test_dict)
-        self.assertIn('nonce', test_dict)
+        self.assertTrue(first_response is not None)
+        self.assertTrue('sig' in test_dict)
+        self.assertTrue('timestamp' in test_dict)
+        self.assertTrue('method' in test_dict)
+        self.assertTrue('nonce' in test_dict)
 
         # Arrange
         test_request_type = 'get'
@@ -110,12 +111,12 @@ class TestTeamCowboyClient(TestCase):
 
         # Assert
         # print(pprint.pformat(second_response))
-        self.assertIsNotNone(second_response)
-        self.assertIn('sig', test_dict)
-        self.assertIn('timestamp', test_dict)
-        self.assertIn('method', test_dict)
-        self.assertIn('nonce', test_dict)
-        self.assertEquals(first_response['sig'], second_response['sig'])
+        self.assertTrue(second_response is not None)
+        self.assertTrue('sig' in test_dict)
+        self.assertTrue('timestamp' in test_dict)
+        self.assertTrue('method' in test_dict)
+        self.assertTrue('nonce' in test_dict)
+        self.assertEqual(first_response['sig'], second_response['sig'])
 
     def test_test_get_request(self):
         # Arrange
@@ -126,4 +127,4 @@ class TestTeamCowboyClient(TestCase):
 
         # Assert
         print(pprint.pformat(response))
-        self.assertIsNotNone(response)
+        self.assertTrue(response is not None)

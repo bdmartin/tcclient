@@ -16,14 +16,18 @@ class TeamCowboyClient:
         """
         self.config = TeamCowboyClientConfig() if config is None else config
         if not isinstance(self.config, TeamCowboyClientConfig):
-            raise Exception('No valid configuration found! Config obj: %s' % (self.config))
+            raise Exception(
+                'No valid configuration found! Config obj: %s' % (self.config)
+            )
 
     def _build_url(self, method):
         """
         Create a dictionary with all of the necessary global parameters.
         """
         # Nonce value must be string of random numbers of length 8 or greater
-        random_number = ''.join(random.SystemRandom().choice(string.digits) for _ in range(64))
+        random_number = ''.join(
+            random.SystemRandom().choice(string.digits) for _ in range(64)
+        )
         url_dict = {
             'api_key': self.config.public_api_key,
             'method': method,
@@ -55,7 +59,7 @@ class TeamCowboyClient:
         Create a sorted url from the dictionary
         """
         url_string = ''
-        for key in sorted(url_dict.iterkeys()):
+        for key in sorted(url_dict.keys()):
             url_string = '&'.join([
                 url_string,
                 '='.join([
@@ -82,7 +86,7 @@ class TeamCowboyClient:
         ])
 
         # create the hash
-        h = hashlib.sha1(sig_string).hexdigest()
+        h = hashlib.sha1(sig_string.encode('utf-8')).hexdigest()
 
         # save it
         url_dict['sig'] = h
@@ -91,7 +95,8 @@ class TeamCowboyClient:
 
     def test_getrequest(self, test_param=None):
         """
-        This is a very basic testing method for checking that you are able to call the Team Cowboy API via a HTTP GET.
+        This is a very basic testing method for checking that you are able to
+        call the Team Cowboy API via a HTTP GET.
         """
         url_dict = self._build_url('Test_GetRequest')
 

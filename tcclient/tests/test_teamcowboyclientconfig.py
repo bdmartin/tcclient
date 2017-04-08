@@ -12,9 +12,11 @@ class TestTeamCowboyClientConfig(TestCase):
         tcc_config = tcclient.TeamCowboyClientConfig(config_file='')
 
         # Assert
-        self.assertTrue(isinstance(tcc_config, tcclient.TeamCowboyClientConfig))
-        self.assertIsNone(tcc_config.public_api_key)
-        self.assertIsNone(tcc_config.private_api_key)
+        self.assertTrue(
+            isinstance(tcc_config, tcclient.TeamCowboyClientConfig)
+        )
+        self.assertTrue(tcc_config.public_api_key is None)
+        self.assertTrue(tcc_config.private_api_key is None)
 
     def test_obj_construction_overrides(self):
         # Arrange
@@ -22,9 +24,14 @@ class TestTeamCowboyClientConfig(TestCase):
         test_private = 'test_private_api_key'
 
         # Act
-        tcc_config = tcclient.TeamCowboyClientConfig(public_api_key=test_public, private_api_key=test_private)
+        tcc_config = tcclient.TeamCowboyClientConfig(
+            public_api_key=test_public,
+            private_api_key=test_private
+        )
 
         # Assert
-        self.assertTrue(isinstance(tcc_config, tcclient.TeamCowboyClientConfig))
+        self.assertTrue(
+            isinstance(tcc_config, tcclient.TeamCowboyClientConfig)
+        )
         self.assertEqual(tcc_config.public_api_key, test_public)
         self.assertEqual(tcc_config.private_api_key, test_private)

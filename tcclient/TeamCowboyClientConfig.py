@@ -1,11 +1,17 @@
-import ConfigParser
+try:
+    from ConfigParser import ConfigParser
+except ImportError:
+    from configparser import ConfigParser
 import logging
 import os.path
 
 
 class TeamCowboyClientConfig:
 
-    def __init__(self, config_file=None, public_api_key=None, private_api_key=None):
+    def __init__(self,
+                 config_file=None,
+                 public_api_key=None,
+                 private_api_key=None):
         """
         Initialize the client configuration file.
         This reads in config from '~/tcclient.ini
@@ -21,7 +27,9 @@ class TeamCowboyClientConfig:
             config_filename = 'tcclient.ini'
 
             # Read from home directory first
-            home_config = os.path.sep.join([os.path.expanduser('~'), config_filename])
+            home_config = os.path.sep.join(
+                [os.path.expanduser('~'), config_filename]
+            )
             self._parse_config_file(home_config)
 
             # Override from the local directory
@@ -43,7 +51,7 @@ class TeamCowboyClientConfig:
         log = logging.getLogger(__name__)
 
         if os.path.isfile(config_file):
-            config = ConfigParser.ConfigParser()
+            config = ConfigParser()
             config.read(config_file)
             log.debug('Config sections: %s', config.sections())
 
